@@ -17,11 +17,9 @@ function Register() {
     e.preventDefault();
     if (!username || !password || !email || !cpass) {
       alert("Please fill the form completely!");
-    }
-    else if(password!==cpass){
-      alert("passwords do not match enter correctly !!")
-    }
-     else
+    } else if (password !== cpass) {
+      alert("passwords do not match enter correctly !!");
+    } else
       alert(`
              Username : ${username}
              Email : ${email}
@@ -39,37 +37,32 @@ function Register() {
 
   const validateInput = (e) => {
     const { value, name } = e.target;
-    if (!!value.match(/^[a-zA-Z0-9_]+$/)) {
-      setUsername(value);
-      setisUsernameValid(true);
+    if (name == "username") {
+      const inputUsername = e.target.value;
+      setUsername(inputUsername);
+      const pattern = /^[a-zA-Z0-9_]+$/;
+      const isUsernameValid = pattern.test(inputUsername);
+      setisUsernameValid(isUsernameValid);
+    } else if (name == "email") {
+      const inputEmail = e.target.value;
+      setEmail(inputEmail);
+      const pattern = /^[\w\.-]+@[\w\.-]+\.\w+$/;
+      const isEmailValid = pattern.test(inputEmail);
+      setisEmailValid(isEmailValid);
+    } else if (name == "password") {
+      const inputPassword = e.target.value;
+      setPassword(inputPassword);
+      const pattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
+      const isPasswordValid = pattern.test(inputPassword);
+      setIsPasswordValid(isPasswordValid);
     } else {
-      setisUsernameValid(false);
-    }
-  };
-
-  const validateEmail = (e) => {
-    const inputEmail = e.target.value;
-    setEmail(inputEmail);
-    const pattern = /^[\w\.-]+@[\w\.-]+\.\w+$/;
-    const isEmailValid = pattern.test(inputEmail);
-    setisEmailValid(isEmailValid);
-  };
-
-  const validatePassword = (e) => {
-    const inputPassword = e.target.value;
-    setPassword(inputPassword);
-    const pattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
-    const isPasswordValid = pattern.test(inputPassword);
-    setIsPasswordValid(isPasswordValid);
-  };
-
-  const validateCpassword = (e) => {
-    const inputPassword = e.target.value;
-    setCPass(inputPassword);
-    if (password === inputPassword) {
-      setIsCpasswordValid(true);
-    } else {
-      setIsCpasswordValid(false);
+      const inputPassword = e.target.value;
+      setCPass(inputPassword);
+      if (password === inputPassword) {
+        setIsCpasswordValid(true);
+      } else {
+        setIsCpasswordValid(false);
+      }
     }
   };
 
@@ -101,7 +94,7 @@ function Register() {
               className="Text-field"
               name="email"
               value={email || ""}
-              onChange={(e) => validateEmail(e)}
+              onChange={(e) => validateInput(e)}
             />
           </div>
           {!isEmailValid && (
@@ -117,7 +110,7 @@ function Register() {
               className="Text-field"
               name="password"
               value={password || ""}
-              onChange={(e) => validatePassword(e)}
+              onChange={(e) => validateInput(e)}
             />
           </div>
 
@@ -133,7 +126,7 @@ function Register() {
               className="Text-field"
               name="cpass"
               value={cpass || ""}
-              onChange={(e) => validateCpassword(e)}
+              onChange={(e) => validateInput(e)}
             />
           </div>
           {!isCpasswordValid && (
